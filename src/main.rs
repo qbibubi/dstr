@@ -3,17 +3,20 @@
 use clap::Parser;
 use std::fs;
 
+#[derive(Parser, Debug)]
+#[clap(author, version, about, long_about = None)]
 struct Args {
-    // pattern to look for
-    pattern: String,
+    #[clap(short, long, value_parser)]
+    name: String,
 
-    // path to the file to read
-    #[clap(parse(from_os_str))]
-    path: std::path::PathBuf,
+    #[clap(short, long, value_parser, default_value_t = 1)]
+    count: u8,
 }
 
 fn main() {
-    let pattern = std::env::args().nth(1).expect("no pattern given");
-    let path = std::env::args().nth(2).expect("no path given");
     let args = Args::parse();
+
+    for _ in 0..args.count {
+        println!("Hello {}", args.name)
+    }
 }
